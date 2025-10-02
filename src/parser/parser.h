@@ -1,9 +1,9 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "lexer/lexer.h"
-#include "lexer/token.h"
-#include "common/common.h"
+#include "../lexer/lexer.h"
+#include "../lexer/token.h"
+#include "../common/common.h"
 
 // Abstract Syntax Tree node types
 typedef enum {
@@ -29,6 +29,11 @@ typedef enum {
 typedef struct ASTNode {
     NodeType type;
     Token* token;
+    struct ASTNode* parent;
+    struct ASTNode* first_child;
+    struct ASTNode* last_child;
+    struct ASTNode* next_sibling;
+    struct ASTNode* prev_sibling;
     union {
         // For expressions
         struct {
@@ -55,6 +60,7 @@ typedef struct ASTNode {
             char* name;
             struct ASTNode* initializer;
             char* type_name;
+            bool is_mutable;
         } declaration;
 
         // For statements
@@ -118,6 +124,9 @@ ASTNode* ast_node_create_literal_int(Token* token, int value);
 ASTNode* ast_node_create_literal_float(Token* token, float value);
 ASTNode* ast_node_create_literal_string(Token* token, const char* value);
 ASTNode* ast_node_create_identifier(Token* token, const char* name);
+ASTNode* ast_node_create_variable_declaration(Token* token, const char* type_name, const char* var_name, ASTNode* initializer);
+ASTNode* ast_node_create_program(void);
+void ast_node_add_child(ASTNode* parent, ASTNode* child);
 
 // Debug functions
 const char* node_type_to_string(NodeType type);

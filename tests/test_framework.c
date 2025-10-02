@@ -26,9 +26,13 @@ void print_test_results(void) {
     }
 }
 
+// Forward declarations for test suites
+void run_parser_basic_tests(void);
+void run_semantic_tests(void);
+
 // Empty implementations for test suites not yet implemented
-void run_parser_tests(void) { printf("Parser tests not yet implemented\n"); }
-void run_semantic_analyzer_tests(void) { printf("Semantic analyzer tests not yet implemented\n"); }
+void run_parser_tests(void) { run_parser_basic_tests(); }
+void run_semantic_analyzer_tests(void) { run_semantic_tests(); }
 void run_code_generator_tests(void) { printf("Code generator tests not yet implemented\n"); }
 void run_integration_tests(void) { printf("Integration tests not yet implemented\n"); }
 void run_token_tests(void);
